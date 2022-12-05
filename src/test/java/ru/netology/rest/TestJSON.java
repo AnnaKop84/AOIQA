@@ -1,17 +1,21 @@
 package ru.netology.rest;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 
 public class TestJSON {
     @Test
-    void shouldSchemeJSON(){
- given()
-         .baseUri()
+    void shouldSchemeJSON() {
+        given()
+                .baseUri("http://localhost:9999/api/v1")
+                .when()
+                .get("/demo/accounts")
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("accounts.schema.json"))
+        ;
     }
 }
